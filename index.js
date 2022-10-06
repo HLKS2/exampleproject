@@ -29,7 +29,8 @@ camera.position.z = 3; // Z let's you move backwards and forwards. X is sideways
 scene.add( camera );
 
 //4 The Renderer
-const renderer = new WebGLRenderer({ canvas });
+const renderer = new WebGLRenderer({ canvas }); 
+renderer.setPixelRatio(Math.min (window.devicePixelRatio, 2));
 renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
 
 // 5 Responsivity
