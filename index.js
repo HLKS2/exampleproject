@@ -26,7 +26,8 @@ import {
     GridHelper
 } from 'three';
 import CameraControls from 'camera-controls';
-
+import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import gsap from 'gsap';
 
 //1 The scene
 const scene = new Scene()
@@ -136,3 +137,34 @@ function animatecube() {
 }
 
 animatecube();
+
+// 9 DEbugging
+const gui = new GUI();
+
+const min = -3;
+const max = 3;
+const step = 0.01;
+
+const transformationFolder = gui.addFolder ('Transformation')
+gui.add(greenCube.position, 'y', min, max, step).name ("Position Y")
+gui.add(greenCube.position, 'x', min, max, step).name ("Position X")
+gui.add(greenCube.position, 'z', min, max, step).name ("Position Z")
+
+
+gui.addFolder('Visibility').add(blueCube, 'visible')
+
+const  colorParam = {
+    value: 0xff0000
+}
+gui.addColor(colorParam, 'value').name("Color").onChange(() => {
+    blueCube.material.color.set(colorParam.value);
+})
+
+
+const functionParam = {
+	spin: () => {
+		gsap.to(greenCube.rotation, { y: greenCube.rotation.y +10, duration: 1 });
+	}
+}
+
+gui.add(functionParam, 'spin');

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "camera-controls": "^1.37.2",
+    "gsap": "^3.11.3",
     "three": "^0.145.0"
   },
   "devDependencies": {
