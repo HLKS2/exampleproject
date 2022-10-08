@@ -19,7 +19,9 @@ import {
     Clock,
     MeshLambertMaterial,
     DirectionalLight,
-    TextureLoader
+    TextureLoader,
+    AmbientLight,
+    HemisphereLightProbe
 } from 'three';
 import CameraControls from 'camera-controls';
 
@@ -34,11 +36,11 @@ const loader = new TextureLoader();
 
 const geometry = new BoxGeometry(0.5, 0.5, 0.5);
 const orangeMaterial = new MeshLambertMaterial( {color: 0xfff909} );
-const greenMaterial = new MeshBasicMaterial( {color: 0xffffff,
+const greenMaterial = new MeshLambertMaterial( {color: 0xffffff,
 map: loader.load('./sample.png')
 } );
 
-const blueMaterial = new MeshBasicMaterial( {color: 0x00ff00} );
+const blueMaterial = new MeshLambertMaterial( {color: 0x00ffcc} );
 
 const orangeCube = new Mesh( geometry, orangeMaterial );
 scene.add( orangeCube );
@@ -69,10 +71,11 @@ const light1 = new DirectionalLight ();
 light1.position.set(3,2,1).normalize();
 scene.add(light1);
 
-const light2 = new DirectionalLight ();
-light2.position.set(-3,2,-1).normalize();
-scene.add(light2);
-
+const color = 0xFFFFFF;
+const intensity = 1;
+const light = new DirectionalLight(color, intensity);
+light.position.set(0,2,0);
+scene.add(light);
 // 6 Responsivity
 
 window.addEventListener('resize', () => {
