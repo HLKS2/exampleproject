@@ -16,7 +16,10 @@ import {
     Sphere,
     Raycaster,
     MathUtils,
-    Clock
+    Clock,
+    MeshLambertMaterial,
+    DirectionalLight,
+    TextureLoader
 } from 'three';
 import CameraControls from 'camera-controls';
 
@@ -26,10 +29,16 @@ const scene = new Scene()
 const canvas = document.getElementById('three-canvas');
 
 //2 The Object
+
+const loader = new TextureLoader();
+
 const geometry = new BoxGeometry(0.5, 0.5, 0.5);
-const orangeMaterial = new MeshBasicMaterial( {color: 'orange'} );
-const greenMaterial = new MeshBasicMaterial( {color: 0x00ff00} );
-const blueMaterial = new MeshBasicMaterial( {color: 0x0000ff} );
+const orangeMaterial = new MeshLambertMaterial( {color: 0xfff909} );
+const greenMaterial = new MeshBasicMaterial( {color: 0xffffff,
+map: loader.load('./sample.png')
+} );
+
+const blueMaterial = new MeshBasicMaterial( {color: 0x00ff00} );
 
 const orangeCube = new Mesh( geometry, orangeMaterial );
 scene.add( orangeCube );
@@ -54,7 +63,17 @@ const renderer = new WebGLRenderer({ canvas });
 renderer.setPixelRatio(Math.min (window.devicePixelRatio, 2));
 renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
 
-// 5 Responsivity
+
+// 5 light
+const light1 = new DirectionalLight ();
+light1.position.set(3,2,1).normalize();
+scene.add(light1);
+
+const light2 = new DirectionalLight ();
+light2.position.set(-3,2,-1).normalize();
+scene.add(light2);
+
+// 6 Responsivity
 
 window.addEventListener('resize', () => {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -62,7 +81,7 @@ window.addEventListener('resize', () => {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
 });
 
-//6 Contorls
+//7 Contorls
 const subsetOfTHREE = {
     MOUSE,
     Vector2,
@@ -85,7 +104,7 @@ const clock = new Clock();
 const cameraControls = new CameraControls(camera, canvas);
 cameraControls.dollyToCursor = true;
 
-//6 Animation
+//8 Animation
 function animate() {
     const delta = clock.getDelta();
       cameraControls.update( delta );
